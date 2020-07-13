@@ -54,8 +54,16 @@ Node *build (char *s) {/*{{{ 根据广义表建树 */
 /*}}}*/
 
 void level_order (Node *node) { /*{{{ 层次遍历 */
-   Node *qu[MAX];
-
+    Node *qu[MAX];
+    int front = -1, rear = -1;
+    qu[++rear] = node;
+    
+    while (front != rear) {
+        Node *tmp = qu[++front];        
+        if (tmp->lchild) qu[++rear] = tmp->lchild;
+        if (tmp->rchild) qu[++rear] = tmp->rchild;
+        printf ("%c ", tmp->data);
+    }
 }
 /*}}}*/
 
@@ -77,7 +85,7 @@ int main () {
     char s[MAX / 10] = "A(B(D),C)";
     s[strlen (s)] = '\0';
     Node *root = build (s);
-    preoreder (root);
+    level_order (root);
     clear (root);
     return 0 ;
 }
